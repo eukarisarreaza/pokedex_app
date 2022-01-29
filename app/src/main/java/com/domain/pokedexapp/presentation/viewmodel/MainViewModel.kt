@@ -16,6 +16,8 @@ class MainViewModel @Inject constructor(
 ) : ViewModel(){
     var offset: Long= 1
     var count= 0
+    var isLastPage: Boolean = false
+    var isLoading2: Boolean = false
 
     val pokemonAll = MutableLiveData<List<Pokemon>>()
     val isLoading = MutableLiveData<Boolean>()

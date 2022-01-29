@@ -5,6 +5,7 @@ import com.domain.pokedexapp.data.model.PokemonEntityMapper
 import com.domain.pokedexapp.data.network.PokedexApiClient
 import com.domain.pokedexapp.domain.GetAllPokemonUseCase
 import com.domain.pokedexapp.domain.repository.PokemonRepository
+import com.domain.pokedexapp.presentation.ui.PokemonRecyclerAdapter
 import com.domain.pokedexapp.presentation.viewmodel.MainViewModel
 import dagger.Module
 import dagger.Provides
