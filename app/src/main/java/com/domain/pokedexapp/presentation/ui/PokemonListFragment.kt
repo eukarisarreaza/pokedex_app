@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.domain.pokedexapp.PokedexApp
 import com.domain.pokedexapp.databinding.FragmentPokemonListBinding
@@ -13,13 +15,7 @@ import com.domain.pokedexapp.domain.model.Pokemon
 import com.domain.pokedexapp.presentation.viewmodel.MainViewModel
 import javax.inject.Inject
 import androidx.recyclerview.widget.RecyclerView
-
-
-
-
-
-
-
+import com.domain.pokedexapp.R
 
 
 class PokemonListFragment : Fragment() {
@@ -28,8 +24,9 @@ class PokemonListFragment : Fragment() {
     private var adapter: PokemonRecyclerAdapter = PokemonRecyclerAdapter(){
         adapterOnClick(pokemon = it)
     }
+    lateinit var navController: NavController
 
-    private lateinit var binding: FragmentPokemonListBinding
+        private lateinit var binding: FragmentPokemonListBinding
 
 
     override fun onCreateView(
@@ -46,7 +43,7 @@ class PokemonListFragment : Fragment() {
         (activity?.application as PokedexApp).mainComponent.inject(this)
         binding.recycler.adapter= adapter
 
-
+        navController=Navigation.findNavController(view)
 
         viewModel.onCreate()
 
@@ -57,7 +54,7 @@ class PokemonListFragment : Fragment() {
         viewModel.pokemonAll.observe(viewLifecycleOwner, {
             adapter.addAll(it as MutableList<Pokemon>)
         })
-        val layoutManager = GridLayoutManager(activity?.applicationContext, 3)
+        val layoutManager = GridLayoutManager(activity?.applicationContext, 2)
         binding.recycler.setLayoutManager(layoutManager)
 
 
@@ -90,7 +87,9 @@ class PokemonListFragment : Fragment() {
 
     private fun adapterOnClick(pokemon: Pokemon) {
 
-
+        navController.navigate(R.id.detailsPokemonFragment,  Bundle().apply {
+            putString("name", pokemon.name)
+        })
     }
 
 

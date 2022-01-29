@@ -21,7 +21,9 @@ data class Pokemon(
     val sprites: Sprites?,
     val stats: List<Stat>?,
     val types: List<Type>?,
-    val weight: Long?
+    val weight: Long?,
+    val urlImage: String,
+    val url: String,
 ) : Model()
 
 

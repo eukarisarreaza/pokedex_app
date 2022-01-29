@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor(
             .subscribe(
                 {
                     pokemonAll.value = it
-
+                    offset=it.size.toLong()
                     Log.e( "error", "Get repo success: $it")
                 },
                 {

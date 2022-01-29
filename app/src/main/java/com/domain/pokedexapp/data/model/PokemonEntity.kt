@@ -1,12 +1,18 @@
 package com.domain.pokedexapp.data.model
 
+import android.util.Log
 import com.domain.pokedexapp.domain.model.Pokemon
 import com.example.cleanarchitecture.data.base.EntityMapper
 import com.example.cleanarchitecture.data.base.ModelEntity
 import com.google.gson.JsonArray
 import com.google.gson.annotations.SerializedName
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+
+
+
+
 
 data class PokemonEntity(
     val id: Long?,
@@ -15,6 +21,7 @@ data class PokemonEntity(
     val height: Long?,
     val weight: Long?,
     val abilities: List<Ability>?= null,
+    val url: String,
 
     @SerializedName("base_experience")
     val baseExperience: Long?,
@@ -48,7 +55,7 @@ data class PokemonEntity(
 
 @Singleton
 class PokemonEntityMapper @Inject constructor() : EntityMapper<Pokemon, PokemonEntity> {
-    override fun mapToDomain(entity: PokemonEntity): Pokemon = Pokemon(
+    override fun mapToDomain(entity: PokemonEntity): Pokemon= Pokemon(
         abilities = entity.abilities,
         baseExperience = entity.baseExperience,
         forms = entity.forms,
@@ -66,7 +73,9 @@ class PokemonEntityMapper @Inject constructor() : EntityMapper<Pokemon, PokemonE
         sprites = entity.sprites,
         stats = entity.stats,
         types = entity.types,
-        weight = entity.weight
+        weight = entity.weight,
+        url = entity.url,
+        urlImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${entity.url.split("/").toList().filter { it.isNotEmpty() }.last()}.png"
     )
 
     override fun mapToEntity(model: Pokemon): PokemonEntity = PokemonEntity(
@@ -87,7 +96,8 @@ class PokemonEntityMapper @Inject constructor() : EntityMapper<Pokemon, PokemonE
         sprites = model.sprites,
         stats = model.stats,
         types = model.types,
-        weight = model.weight
+        weight = model.weight,
+        url = model.url
     )
 }
 

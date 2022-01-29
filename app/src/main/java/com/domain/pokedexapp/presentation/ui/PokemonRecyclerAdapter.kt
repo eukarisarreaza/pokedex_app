@@ -9,6 +9,7 @@ import android.widget.ImageView
 
 import android.widget.TextView
 import com.domain.pokedexapp.R
+import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
 
@@ -26,7 +27,12 @@ class PokemonRecyclerAdapter @Inject constructor(val onClick: (Pokemon) -> Unit)
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-        holder.movieTitle.text= listPokemon[position].name
+        holder.itemTitle.text= listPokemon[position].name
+        Picasso.get().load(listPokemon[position].urlImage)
+            .into(holder.itemImage)
+        holder.container.setOnClickListener{
+            onClick(listPokemon[position])
+        }
     }
 
 
@@ -35,12 +41,14 @@ class PokemonRecyclerAdapter @Inject constructor(val onClick: (Pokemon) -> Unit)
     }
 
     class PokemonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val movieTitle: TextView
-        val movieImage: ImageView
+        val itemTitle: TextView
+        val itemImage: ImageView
+        val container: View
 
         init {
-            movieTitle = itemView.findViewById(R.id.tvTitle)
-            movieImage = itemView.findViewById(R.id.tvImage) as ImageView
+            itemTitle = itemView.findViewById(R.id.itTitle)
+            container = itemView.findViewById(R.id.container)
+            itemImage = itemView.findViewById(R.id.itImage) as ImageView
         }
     }
 
