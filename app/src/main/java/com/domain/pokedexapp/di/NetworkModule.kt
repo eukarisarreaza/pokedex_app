@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class NetworkModule {
 
     companion object {
-        private const val NAME_BASE_URL = "https://pokeapi.co/api/v2/"
+        private const val NAME_BASE_URL = "https://pokeapi.co/api/"
     }
 
     @Provides

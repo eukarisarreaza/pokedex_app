@@ -14,7 +14,7 @@ open class GetAllPokemonUseCase @Inject constructor(
     ): UseCase<GetAllPokemonUseCase.Params, Single<List<Pokemon>>>() {
 
 
-    data class Params(val limit: Int, val offset: Int)
+    data class Params(val limit: Long, val offset: Long)
 
     override fun createObservable(params: Params?): Single<List<Pokemon>> {
         params?.let { return pokemonRepository.getListPokemon(params.limit, params.offset, true) }
