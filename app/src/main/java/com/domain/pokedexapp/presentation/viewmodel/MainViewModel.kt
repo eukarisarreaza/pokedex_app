@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.domain.pokedexapp.domain.GetAllPokemonUseCase
 import com.domain.pokedexapp.domain.model.Pokemon
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.domain.pokedexapp.presentation.utils.RxUtils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -19,15 +19,14 @@ class MainViewModel @Inject constructor(
     var isLastPage: Boolean = false
     var isLoading2: Boolean = false
 
-    val pokemonAll = MutableLiveData<List<Pokemon>>()
+    var pokemonAll = MutableLiveData<List<Pokemon>>()
     val isLoading = MutableLiveData<Boolean>()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
 
     fun onCreate(){
         addDisposable(getListPokemonUseCase.createObservable(GetAllPokemonUseCase.Params(limit = 20, offset = offset))
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { isLoading.postValue(true)}
+            .compose(RxUtils.applySingleScheduler(isLoading))
             .doFinally{isLoading.postValue(false)}
             .subscribe(
                 {

@@ -32,15 +32,15 @@ class PokemonRepositoryImpl @Inject constructor(
                 .map { response ->
                     response.results!!.map { mapper.mapToDomain(it)}
                 }
-                .doOnSuccess {
-                    Log.e("error", "Get list success $it")
-                }
-                .doOnError {
-                    Log.e("error", "Get list error $it")
-                }
-                /*.onErrorResumeNext(
-                    getListPokemon(limit, offset, false)
-                )*/
+            /*.doOnSuccess {
+                Log.e("error", "Get list success $it")
+            }
+            .doOnError {
+                Log.e("error", "Get list error $it")
+            }
+            .onErrorResumeNext(
+                getListPokemon(limit, offset, false)
+            )*/
         }
 
 
