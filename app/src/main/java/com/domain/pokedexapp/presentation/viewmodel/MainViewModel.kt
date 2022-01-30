@@ -20,7 +20,9 @@ class MainViewModel @Inject constructor(
     var isLoading2: Boolean = false
 
     var pokemonAll = MutableLiveData<List<Pokemon>>()
-    val isLoading = MutableLiveData<Boolean>()
+    var isLoading = MutableLiveData<Boolean>()
+
+
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
 
