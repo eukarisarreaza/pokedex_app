@@ -50,7 +50,7 @@ class PokemonRepositoryImpl @Inject constructor(
         }
 
     private fun saveList(it: List<Pokemon>) {
-        pokemonDao.insertAll(it.map { PokemonTable(name = it.name!!, url = it.url, urlImage = it.urlImage ) })
+        pokemonDao.insertAll(it.map { PokemonTable(name = it.name!!, url = it.url!!, urlImage = it.urlImage!! ) })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe()
@@ -59,6 +59,12 @@ class PokemonRepositoryImpl @Inject constructor(
 
 
     override fun getDetailsPokemon(name: String): Single<Pokemon> {
-        return  pokemonApiClient.getDetailsPokemon(name).map { mapper.mapToDomain(it)}
+        return pokemonApiClient.getDetailsPokemon(name)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                mapper.mapToDomain(it)
+            }
+
     }
 }

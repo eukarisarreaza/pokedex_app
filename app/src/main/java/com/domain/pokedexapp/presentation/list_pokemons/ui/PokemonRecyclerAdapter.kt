@@ -1,4 +1,4 @@
-package com.domain.pokedexapp.presentation.ui
+package com.domain.pokedexapp.presentation.list_pokemons.ui
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

@@ -22,8 +22,8 @@ data class Pokemon(
     val stats: List<Stat>?= null,
     val types: List<Type>?= null,
     val weight: Long?= null,
-    val urlImage: String,
-    val url: String,
+    val urlImage: String?= null,
+    val url: String?= null,
 ) : Model()
 
 

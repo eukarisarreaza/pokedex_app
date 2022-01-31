@@ -6,6 +6,7 @@ import com.domain.pokedexapp.di.*
 class PokedexApp : Application() {
 
     lateinit var mainComponent : MainComponent
+    lateinit var detailsComponent : DetailsComponent
 
 
     override fun onCreate() {
@@ -14,6 +15,15 @@ class PokedexApp : Application() {
             .networkModule(NetworkModule())
             .roomModule(RoomModule())
             .mainModule(MainModule(this))
+            .build()
+
+
+
+        detailsComponent= DaggerDetailsComponent.builder()
+            .networkModule(NetworkModule())
+            .roomModule(RoomModule())
+            .repositoryModule(RepositoryModule())
+            .detailsModule(DetailsModule(this))
             .build()
     }
 

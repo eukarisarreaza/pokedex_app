@@ -1,25 +1,19 @@
-package com.domain.pokedexapp.presentation.viewmodel
+package com.domain.pokedexapp.presentation.list_pokemons.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import com.domain.pokedexapp.domain.GetAllPokemonUseCase
 import com.domain.pokedexapp.domain.model.Pokemon
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.internal.observers.ConsumerSingleObserver
 import io.reactivex.observers.TestObserver
 import io.reactivex.schedulers.Schedulers
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
-import io.reactivex.subscribers.TestSubscriber
-import org.mockito.Mockito.anyLong
 
 
 //@RunWith(MockitoJUnitRunner::class)
@@ -89,7 +83,7 @@ class MainViewModelTest{
 
 
 
-    @Test
+    /*@Test
     fun testSearchPokemon() {
 
 
@@ -108,7 +102,7 @@ class MainViewModelTest{
 
         assertEquals(mainViewModel.isLoading.value, false)
 
-    }
+    }*/
 
 }
 

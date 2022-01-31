@@ -1,4 +1,4 @@
-package com.domain.pokedexapp.presentation.viewmodel
+package com.domain.pokedexapp.presentation.list_pokemons.viewmodel
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
 import org.junit.jupiter.api.extension.AfterEachCallback

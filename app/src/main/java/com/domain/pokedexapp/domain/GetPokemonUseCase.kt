@@ -13,7 +13,7 @@ open class GetPokemonUseCase @Inject constructor(val pokemonRepository: PokemonR
 
     override fun createObservable(params: Params?): Single<Pokemon> {
         if (params != null) {
-            pokemonRepository.getDetailsPokemon(params.name)
+            return pokemonRepository.getDetailsPokemon(params.name)
         }
         return Single.error(Throwable("Params input not valid"))
     }

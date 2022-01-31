@@ -1,6 +1,5 @@
-package com.domain.pokedexapp.presentation.viewmodel
+package com.domain.pokedexapp.presentation.list_pokemons.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.domain.pokedexapp.domain.GetAllPokemonUseCase
@@ -46,12 +45,6 @@ class MainViewModel @Inject constructor(
                     }
                 ))
         }
-    }
-
-    fun searchPok(query: String): Single<List<Pokemon>>{
-        return getListPokemonUseCase.createObservable(GetAllPokemonUseCase.Params( criteria = query, fromServer = false))
-//            .compose(RxUtils.applySingleScheduler(isLoading))
-            .doFinally{isLoading.postValue(false)}
     }
 
 

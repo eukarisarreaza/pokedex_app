@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PokedexApp">
         <activity
-            android:name=".presentation.ui.MainActivity"
+            android:name="com.domain.pokedexapp.presentation.list_pokemons.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

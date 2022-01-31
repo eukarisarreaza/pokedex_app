@@ -8,11 +8,9 @@ import com.domain.pokedexapp.data.model.PokemonTableMapper
 import com.domain.pokedexapp.data.network.PokedexApiClient
 import com.domain.pokedexapp.domain.GetAllPokemonUseCase
 import com.domain.pokedexapp.domain.repository.PokemonRepository
-import com.domain.pokedexapp.presentation.ui.PokemonRecyclerAdapter
-import com.domain.pokedexapp.presentation.viewmodel.MainViewModel
+import com.domain.pokedexapp.presentation.list_pokemons.viewmodel.MainViewModel
 import dagger.Module
 import dagger.Provides
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
@@ -39,23 +37,6 @@ class MainModule constructor(var context: Context) {
     }
 
 
-    @Singleton
-    @Provides
-    fun providePokemonRepository(pokemonApiClient: PokedexApiClient, pokemonEntityMapper: PokemonEntityMapper,
-                                 pokemonDAO: PokemonDao, mapperTable: PokemonTableMapper): PokemonRepository{
-        return PokemonRepositoryImpl(pokemonApiClient= pokemonApiClient, mapper = pokemonEntityMapper, pokemonDao = pokemonDAO, mapperTable = mapperTable)
-    }
 
-    @Singleton
-    @Provides
-    fun providePokemonEntityMapper(): PokemonEntityMapper{
-        return PokemonEntityMapper()
-    }
-
-    @Singleton
-    @Provides
-    fun providePokemonTableMapper(): PokemonTableMapper{
-        return PokemonTableMapper()
-    }
 
 }

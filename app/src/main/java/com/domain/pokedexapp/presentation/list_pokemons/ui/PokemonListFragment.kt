@@ -1,4 +1,4 @@
-package com.domain.pokedexapp.presentation.ui
+package com.domain.pokedexapp.presentation.list_pokemons.ui
 
 import android.os.Bundle
 import android.text.Editable
@@ -8,14 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.domain.pokedexapp.PokedexApp
 import com.domain.pokedexapp.databinding.FragmentPokemonListBinding
 import com.domain.pokedexapp.domain.model.Pokemon
-import com.domain.pokedexapp.presentation.viewmodel.MainViewModel
+import com.domain.pokedexapp.presentation.list_pokemons.viewmodel.MainViewModel
 import javax.inject.Inject
 import androidx.recyclerview.widget.RecyclerView
 import com.domain.pokedexapp.R
@@ -61,6 +60,7 @@ class PokemonListFragment : Fragment() {
         binding.recycler.setLayoutManager(layoutManager)
         val layoutManager2 = GridLayoutManager(activity?.applicationContext, 2)
         binding.recyclerSearch.setLayoutManager(layoutManager2)
+        binding.recyclerSearch.visibility = View.INVISIBLE
 
         viewModel.pokemonSearch.observe(viewLifecycleOwner, {
             val adapter2=PokemonRecyclerAdapter{adapterOnClick(pokemon = it)}

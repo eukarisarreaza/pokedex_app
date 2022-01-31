@@ -1,4 +1,4 @@
-package com.domain.pokedexapp.presentation.viewmodel
+package com.domain.pokedexapp.presentation.list_pokemons.viewmodel
 
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins

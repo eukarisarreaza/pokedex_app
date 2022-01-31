@@ -22,7 +22,7 @@ data class PokemonEntity(
     val height: Long?,
     val weight: Long?,
     val abilities: List<Ability>?= null,
-    val url: String,
+    val url: String?=null,
 
     @SerializedName("base_experience")
     val baseExperience: Long?,
@@ -62,9 +62,9 @@ class PokemonTableMapper @Inject constructor() : EntityMapper<Pokemon, PokemonTa
     )
 
     override fun mapToEntity(model: Pokemon): PokemonTable = PokemonTable(
-        urlImage = model.urlImage,
+        urlImage = model.urlImage!!,
         name = model.name!!,
-        url = model.url
+        url = model.url!!
     )
 }
 
@@ -96,8 +96,15 @@ class PokemonEntityMapper @Inject constructor() : EntityMapper<Pokemon, PokemonE
         types = entity.types,
         weight = entity.weight,
         url = entity.url,
-        urlImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${entity.url.split("/").toList().filter { it.isNotEmpty() }.last()}.png"
+        urlImage = getUrlImage(entity)
     )
+
+    private fun getUrlImage(entity: PokemonEntity): String? {
+        if(entity.id!=null)
+            return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${entity.id}.png"
+        else
+            return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${entity.url?.split("/")?.toList()?.filter { it.isNotEmpty() }?.last()}.png"
+    }
 
     override fun mapToEntity(model: Pokemon): PokemonEntity = PokemonEntity(
         abilities = model.abilities,
@@ -118,7 +125,7 @@ class PokemonEntityMapper @Inject constructor() : EntityMapper<Pokemon, PokemonE
         stats = model.stats,
         types = model.types,
         weight = model.weight,
-        url = model.url
+        url = model.url!!
     )
 }
 

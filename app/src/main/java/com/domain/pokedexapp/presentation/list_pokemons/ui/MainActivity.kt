@@ -1,4 +1,4 @@
-package com.domain.pokedexapp.presentation.ui
+package com.domain.pokedexapp.presentation.list_pokemons.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
