@@ -1,7 +1,10 @@
 package com.domain.pokedexapp.data
 
 import android.util.Log
+import com.domain.pokedexapp.data.database.dao.PokemonDao
+import com.domain.pokedexapp.data.database.entities.PokemonTable
 import com.domain.pokedexapp.data.model.PokemonEntityMapper
+import com.domain.pokedexapp.data.model.PokemonTableMapper
 import com.domain.pokedexapp.data.network.PokedexApiClient
 import com.domain.pokedexapp.domain.model.Pokemon
 import com.domain.pokedexapp.domain.repository.PokemonRepository
@@ -15,26 +18,26 @@ import javax.inject.Singleton
 @Singleton
 class PokemonRepositoryImpl @Inject constructor(
     private val pokemonApiClient: PokedexApiClient,
-    private val mapper : PokemonEntityMapper
+    private val mapper : PokemonEntityMapper,
+    private val mapperTable: PokemonTableMapper,
+    private val pokemonDao: PokemonDao
 ) : PokemonRepository{
 
-    override fun getListPokemon(limit: Long, offset: Long, fromServer: Boolean): Single<List<Pokemon>> =
+    override fun getListPokemon(limit: Long?, offset: Long?, criteria: String, fromServer: Boolean): Single<List<Pokemon>> =
         when (fromServer){
-            false ->Single.create<List<Pokemon>> { sb ->
-                //Transaction or network imitation
-                Thread.sleep(2000)
-                sb.onSuccess(emptyList())
-            }.subscribeOn(Schedulers.io())
+            false -> pokemonDao.getFromCriteria(criteria).map { response->
+                response.map {  mapperTable.mapToDomain(it) }
+            }.doOnError{ Throwable("Not found!") }
 
-            true -> pokemonApiClient.getListPokemon(limit, offset)
+            true -> pokemonApiClient.getListPokemon(limit!!, offset!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { response ->
                     response.results!!.map { mapper.mapToDomain(it)}
                 }
-            /*.doOnSuccess {
-                Log.e("error", "Get list success $it")
-            }
+            .doOnSuccess {response->
+                pokemonDao.insertAll(response.map { PokemonTable(name = it.name!!, url = it.url, urlImage = it.urlImage ) })
+            }/*
             .doOnError {
                 Log.e("error", "Get list error $it")
             }

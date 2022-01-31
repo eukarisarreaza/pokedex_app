@@ -1,6 +1,7 @@
 package com.domain.pokedexapp.data.model
 
 import android.util.Log
+import com.domain.pokedexapp.data.database.entities.PokemonTable
 import com.domain.pokedexapp.domain.model.Pokemon
 import com.example.cleanarchitecture.data.base.EntityMapper
 import com.example.cleanarchitecture.data.base.ModelEntity
@@ -50,6 +51,26 @@ data class PokemonEntity(
     val stats: List<Stat> ? = null,
     val types: List<Type> ? = null
     ) : ModelEntity()
+
+
+@Singleton
+class PokemonTableMapper @Inject constructor() : EntityMapper<Pokemon, PokemonTable>{
+    override fun mapToDomain(entity: PokemonTable): Pokemon = Pokemon(
+        urlImage = entity.urlImage,
+        name = entity.name,
+        url = entity.url
+    )
+
+    override fun mapToEntity(model: Pokemon): PokemonTable = PokemonTable(
+        urlImage = model.urlImage,
+        name = model.name!!,
+        url = model.url
+    )
+}
+
+
+
+
 
 
 

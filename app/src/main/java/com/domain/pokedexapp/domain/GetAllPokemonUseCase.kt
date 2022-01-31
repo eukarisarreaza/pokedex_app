@@ -12,10 +12,10 @@ open class GetAllPokemonUseCase @Inject constructor(
     ): UseCase<GetAllPokemonUseCase.Params, Single<List<Pokemon>>>() {
 
 
-    data class Params(val limit: Long, val offset: Long)
+    data class Params(val limit: Long?= null, val offset: Long?= null, val criteria: String, val fromServer: Boolean)
 
     override fun createObservable(params: Params?): Single<List<Pokemon>> {
-        params?.let { return pokemonRepository.getListPokemon(params.limit, params.offset, true) }
+        params?.let { return pokemonRepository.getListPokemon(params.limit, params.offset, params.criteria, params.fromServer) }
         return Single.error(Throwable(""))
     }
 }

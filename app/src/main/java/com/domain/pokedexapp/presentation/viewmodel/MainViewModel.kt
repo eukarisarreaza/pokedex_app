@@ -25,9 +25,28 @@ class MainViewModel @Inject constructor(
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
+    fun searchPokemon(query: String) = when (query.isNullOrEmpty()) {
+        true -> Unit
+        false -> query.let {
+            addDisposable(getListPokemonUseCase.createObservable(GetAllPokemonUseCase.Params( criteria = query, fromServer = false))
+                .compose(RxUtils.applySingleScheduler(isLoading))
+                .doFinally{isLoading.postValue(false)}
+                .subscribe(
+                    {
+                        pokemonAll.value = it
+
+                        Log.e( "error", "Get repo success: $it")
+                    },
+                    {
+                        Log.e( "error", "Get repo error: $it")
+                    }
+                ))
+        }
+    }
+
 
     fun onCreate(){
-        addDisposable(getListPokemonUseCase.createObservable(GetAllPokemonUseCase.Params(limit = 20, offset = offset))
+        addDisposable(getListPokemonUseCase.createObservable(GetAllPokemonUseCase.Params(limit = 20, offset = offset, criteria = "", fromServer = true))
             .compose(RxUtils.applySingleScheduler(isLoading))
             .doFinally{isLoading.postValue(false)}
             .subscribe(
@@ -39,7 +58,7 @@ class MainViewModel @Inject constructor(
                 {
                     Log.e( "error", "Get repo error: $it")
                 }
-            ));
+            ))
     }
 
 

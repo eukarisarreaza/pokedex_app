@@ -82,7 +82,9 @@ class PokemonListFragment : Fragment() {
 
         })
 
-
+        binding.btnSearch.setOnClickListener {
+            viewModel.searchPokemon(binding.textView.text.toString())
+        }
     }
 
     private fun adapterOnClick(pokemon: Pokemon) {

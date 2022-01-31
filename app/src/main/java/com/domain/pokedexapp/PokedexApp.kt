@@ -1,10 +1,7 @@
 package com.domain.pokedexapp
 
 import android.app.Application
-import com.domain.pokedexapp.di.DaggerMainComponent
-import com.domain.pokedexapp.di.MainComponent
-import com.domain.pokedexapp.di.MainModule
-import com.domain.pokedexapp.di.NetworkModule
+import com.domain.pokedexapp.di.*
 
 class PokedexApp : Application() {
 
@@ -15,7 +12,8 @@ class PokedexApp : Application() {
         super.onCreate()
         mainComponent= DaggerMainComponent.builder()
             .networkModule(NetworkModule())
-            .mainModule(MainModule())
+            .roomModule(RoomModule())
+            .mainModule(MainModule(this))
             .build()
     }
 
