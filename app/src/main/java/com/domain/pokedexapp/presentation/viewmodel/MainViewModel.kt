@@ -20,12 +20,15 @@ class MainViewModel @Inject constructor(
     var isLoading2: Boolean = false
 
     var pokemonAll = MutableLiveData<List<Pokemon>>()
+    var pokemonSearch = MutableLiveData<List<Pokemon>>()
+
     var isLoading = MutableLiveData<Boolean>()
 
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    fun searchPokemon(query: String) = when (query.isNullOrEmpty()) {
+    fun searchPokemon(query: String) =
+        when (query.isNullOrEmpty()) {
         true -> Unit
         false -> query.let {
             addDisposable(getListPokemonUseCase.createObservable(GetAllPokemonUseCase.Params( criteria = query, fromServer = false))
@@ -33,12 +36,12 @@ class MainViewModel @Inject constructor(
                 .doFinally{isLoading.postValue(false)}
                 .subscribe(
                     {
-                        pokemonAll.value = it
+                        pokemonSearch.value = it
 
-                        Log.e( "error", "Get repo success: $it")
+                        //Log.e( "error", "Get repo success: $it")
                     },
                     {
-                        Log.e( "error", "Get repo error: $it")
+                        //Log.e( "error", "Get repo error: $it")
                     }
                 ))
         }
@@ -53,10 +56,10 @@ class MainViewModel @Inject constructor(
                 {
                     pokemonAll.value = it
                     offset=it.size.toLong()
-                    Log.e( "error", "Get repo success: $it")
+                    //Log.e( "error", "Get repo success: $it")
                 },
                 {
-                    Log.e( "error", "Get repo error: $it")
+                    //Log.e( "error", "Get repo error: $it")
                 }
             ))
     }

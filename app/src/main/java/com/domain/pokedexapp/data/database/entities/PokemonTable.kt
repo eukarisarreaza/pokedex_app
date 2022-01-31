@@ -8,8 +8,7 @@ import com.example.cleanarchitecture.data.base.ModelEntity
 
 @Entity( tableName = "pokemon_table")
 data class PokemonTable (
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") var id: Int = 0,
+    @PrimaryKey
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "url") val url: String,
     @ColumnInfo(name = "url_image") val urlImage: String
