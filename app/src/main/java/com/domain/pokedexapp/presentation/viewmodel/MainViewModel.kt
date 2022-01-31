@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.domain.pokedexapp.domain.GetAllPokemonUseCase
 import com.domain.pokedexapp.domain.model.Pokemon
 import com.domain.pokedexapp.presentation.utils.RxUtils
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -45,6 +46,12 @@ class MainViewModel @Inject constructor(
                     }
                 ))
         }
+    }
+
+    fun searchPok(query: String): Single<List<Pokemon>>{
+        return getListPokemonUseCase.createObservable(GetAllPokemonUseCase.Params( criteria = query, fromServer = false))
+//            .compose(RxUtils.applySingleScheduler(isLoading))
+            .doFinally{isLoading.postValue(false)}
     }
 
 

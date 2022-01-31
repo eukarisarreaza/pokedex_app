@@ -19,12 +19,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import io.reactivex.subscribers.TestSubscriber
-
-
+import org.mockito.Mockito.anyLong
 
 
 //@RunWith(MockitoJUnitRunner::class)
-@ExtendWith(InstantExecutorExtension::class)
+@ExtendWith(value = [InstantExecutorExtension::class, TestSchedulerExtension::class])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MainViewModelTest{
     @Mock
@@ -55,10 +54,10 @@ class MainViewModelTest{
 
         val listItem: List<Pokemon> = arrayListOf(itemPokemno)
 
-        `when`(getListPokemonUseCase.createObservable((GetAllPokemonUseCase.Params(limit = limit, offset = offest))))
+        `when`(getListPokemonUseCase.createObservable((GetAllPokemonUseCase.Params(limit = limit, offset = offest, criteria = "", fromServer = true))))
             .thenReturn(Single.just(listItem))
 
-        var data= getListPokemonUseCase.createObservable((GetAllPokemonUseCase.Params(limit = limit, offset = offest))).blockingGet()
+        var data= getListPokemonUseCase.createObservable((GetAllPokemonUseCase.Params(limit = limit, offset = offest, criteria = "", fromServer = true))).blockingGet()
 
 
         assertEquals(1, data.size)
@@ -68,7 +67,7 @@ class MainViewModelTest{
     }
 
     @Test
-    fun test2() {
+    fun testSearch() {
         var limit: Long = 2
         var offest: Long = 1
 
@@ -76,10 +75,11 @@ class MainViewModelTest{
 
         val listItem: List<Pokemon> = arrayListOf(itemPokemno)
 
-        `when`(getListPokemonUseCase.createObservable((GetAllPokemonUseCase.Params(limit = limit, offset = offest))))
+        `when`(getListPokemonUseCase.createObservable((GetAllPokemonUseCase.Params(limit = limit, offset = offest, criteria = "ivy", fromServer = false))))
             .thenReturn(Single.just(listItem))
 
-        var testObserver: TestObserver<List<Pokemon>> = getListPokemonUseCase.createObservable((GetAllPokemonUseCase.Params(limit = limit, offset = offest))).test()
+        var testObserver: TestObserver<List<Pokemon>> = getListPokemonUseCase.createObservable(
+            (GetAllPokemonUseCase.Params(limit = limit, offset = offest, criteria = "ivy", fromServer = false))).test()
         testObserver.awaitTerminalEvent()
         testObserver
             .assertNoErrors()
@@ -88,7 +88,27 @@ class MainViewModelTest{
     }
 
 
+
+    @Test
+    fun testSearchPokemon() {
+
+
+        `when`(getListPokemonUseCase.createObservable((GetAllPokemonUseCase.Params(limit = 1, offset = 1,
+            criteria = "query", fromServer = false))))
+            .thenReturn(Single.error(Throwable("error")))
+
+        var testObserver: TestObserver<List<Pokemon>> = mainViewModel.searchPok("query").test()
+
+
+        testObserver.awaitTerminalEvent()
+        testObserver
+            .assertNoErrors()
+            .assertValue { l -> l.size == 1 }
+
+
+        assertEquals(mainViewModel.isLoading.value, false)
+
+    }
+
 }
 
-
-inline fun <reified T> mock(): T = Mockito.mock(T::class.java)
